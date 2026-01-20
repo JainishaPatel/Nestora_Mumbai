@@ -179,32 +179,3 @@ def clear_reset_token(user_id):
     db.commit()
     cursor.close()
     db.close()
-
-
-
-# #---------------- GET USER BY ID (OPTIONAL / COMMENTED) ----------------
-# def get_user_by_email_by_id(user_id):
-#     """
-#     Fetch a user by user_id.
-#     Returns a User object if found, else None.
-#     """
-#     db = db_connection()
-#     cursor = db.cursor(dictionary=True)
-#     sql = "SELECT * FROM users WHERE user_id=%s"
-#     cursor.execute(sql, (user_id,))
-#     row = cursor.fetchone()
-#     cursor.close()
-#     db.close()
-#     if row:
-#         return User(
-#             user_id=row["user_id"],
-#             name=row["name"],
-#             email=row["email"],
-#             password_hash=row["password_hash"],
-#             phone=row.get("phone"),
-#             created_on=row.get("created_on"),
-#             last_login=row.get("last_login"),
-#             is_active=row.get("is_active", True)
-#         )
-#     return None
-
