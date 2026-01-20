@@ -95,16 +95,16 @@ If you face issues like:
 - MySQL working only outside my_env
 - App runs but DB changes are not applied
 
-You can use the Global (System) Python Environment instead (i.e., without `my_env`):
+➡️ You can use the Global (System) Python Environment instead (i.e., without `my_env`):
 ```bash
 deactivate
 pip install -r requirements.txt
 ```
-Or force the virtual environment Python:
+➡️ Or force the virtual environment Python:
 ```bash
 my_env\Scripts\python -m pip install -r requirements.txt
 ```
-To check which Python is being used:
+➡️ To check which Python is being used:
 ```bash
 python -c "import sys; print(sys.executable)"
 ```
