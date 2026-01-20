@@ -31,6 +31,19 @@ CLOUDINARY_DEFAULT_IMAGE = (
 )
 
 
+# ------------------- GLOBAL CONSTANTS -------------------
+
+PROPERTY_FIELDS = [
+    "id", "user_id", "title", "area", "direction", "city", "property_type",
+    "bhk", "furnishing", "price", "price_type", "images",
+    "floor", "total_floors", "carpet_area", "bathrooms", "toilet_type",
+    "age_of_property", "balcony", "parking", "lift", "gas_pipeline",
+    "water_supply", "landmark", "nearby_metro", "nearby_school", "nearby_hospital",
+    "owner_type", "deposit", "maintenance_charge",
+    "posted_on", "is_verified", "is_available"
+]
+
+
 # ------------------- HOME PAGE -------------------
 @app.route('/')
 def home():
@@ -86,17 +99,8 @@ def property_details(id):
     if not row:
         flash("Property not found  or unavailable!", "danger")
         return redirect(url_for("browse_houses"))
-    
-    property_fields = [
-        "id","user_id","title","area","direction","city","property_type",
-        "bhk","furnishing","price","price_type","images",
-        "floor","total_floors","carpet_area","bathrooms","toilet_type",
-        "age_of_property","balcony","parking","lift","gas_pipeline",
-        "water_supply","landmark","nearby_metro","nearby_school","nearby_hospital",
-        "owner_type","deposit","maintenance_charge", "posted_on", "is_verified", "is_available"
-    ]
-        
-    selected_property = Property(**{k: row[k] for k in property_fields if k in row})
+  
+    selected_property = Property(**{k: row[k] for k in PROPERTY_FIELDS if k in row})
 
     is_owner = viewer_user_id == row["user_id"]
 
@@ -521,19 +525,10 @@ def reset_password(token):
 def admin_properties():
     rows = admin_pending_properties()
 
-    property_fields = [
-        "id","user_id","title","area","direction","city","property_type",
-        "bhk","furnishing","price","price_type","images",
-        "floor","total_floors","carpet_area","bathrooms","toilet_type",
-        "age_of_property","balcony","parking","lift","gas_pipeline",
-        "water_supply","landmark","nearby_metro","nearby_school","nearby_hospital",
-        "owner_type","deposit","maintenance_charge", "posted_on", "is_verified", "is_available"
-    ]
-
     properties = []
     for row in rows:
         # Only pass Property fields to Property constructor
-        prop = Property(**{k: row[k] for k in property_fields if k in row})
+        prop = Property(**{k: row[k] for k in PROPERTY_FIELDS if k in row})
         # Attach owner info separately
         prop.owner_name = row.get("owner_name")
         prop.owner_email = row.get("owner_email")
@@ -555,16 +550,7 @@ def admin_property_details(id):
         flash("Property not found", "danger")
         return redirect(url_for("admin_properties"))
     
-    property_fields = [
-        "id","user_id","title","area","direction","city","property_type",
-        "bhk","furnishing","price","price_type","images",
-        "floor","total_floors","carpet_area","bathrooms","toilet_type",
-        "age_of_property","balcony","parking","lift","gas_pipeline",
-        "water_supply","landmark","nearby_metro","nearby_school","nearby_hospital",
-        "owner_type","deposit","maintenance_charge", "posted_on", "is_verified", "is_available"
-    ]
-    
-    property = Property(**{k: row[k] for k in property_fields if k in row})
+    property = Property(**{k: row[k] for k in PROPERTY_FIELDS if k in row})
 
     is_owner = viewer_user_id == row["user_id"]
 
