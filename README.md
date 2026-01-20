@@ -17,7 +17,7 @@ Nestora Mumbai is a web application built with **Flask** that allows users to br
 - [Running the Application](#running-the-application)  
 - [Usage](#usage)  
 - [Admin Panel](#admin-panel)    
-
+- [Image Preview](#image-preview)
 ---
 
 ## Features
@@ -50,11 +50,13 @@ Before setup, make sure the following are installed:
 1. **Python 3.11+**  
    [Download here](https://www.python.org/downloads/)
 
-2. **MySQL Server**  
-   - Windows: [Installer](https://dev.mysql.com/downloads/installer/)  
-   - macOS/Linux: Use your package manager (`brew install mysql`, etc.)
+   (Make sure `pip` is installed along with Python.)
 
-3. **Cloudinary Account**  
+3. **MySQL Server**  
+   - Windows: [Installer](https://dev.mysql.com/downloads/installer/)  
+   - macOS/Linux: Use your package manager (`brew install mysql`, `sudo apt install mysql-server`, etc.)
+
+4. **Cloudinary Account**  
    Free signup: [https://cloudinary.com/](https://cloudinary.com/)
 
 ---
@@ -65,7 +67,7 @@ Before setup, make sure the following are installed:
 
 ```bash
 git clone https://github.com/JainishaPatel/Nestora_Mumbai.git
-cd nestora_mumbai
+cd Nestora_Mumbai
 ```
 
 ### 2️⃣ Create & Activate Virtual Environment
@@ -117,8 +119,8 @@ ADMIN_PHONE=your_admin_phone
 
 ## Database Setup
 
-### 1️⃣ Make sure MySQL server is running
-- Ensure your MySQL service is up and running before proceeding.
+### 1️⃣ Start MySQL server
+- Make sure your MySQL service is running.
 
 ### 2️⃣ Create the database
 ```bash
@@ -129,11 +131,25 @@ CREATE DATABASE nestora;
 - Add your database credentials in the .env file.
 
 ### 4️⃣ Initialize database tables
-- Run the database setup script (if available):
+- Run the database setup script to create all required tables:
 ``` bash
 python models/database.py
 ```
 ( This command will automatically create all the required tables. )
+
+### 5️⃣ Upload default/sample images (optional)
+- Upload placeholder or sample images to Cloudinary:
+``` bash
+python -m utils.upload_defaults_to_cloudinary
+```
+
+### 6️⃣ Preload Dummy Data (Optional)
+- If you want to add sample properties and users to your database for testing:
+``` bash
+python run.py
+```
+(This script will insert dummy/sample data into your database.
+Make sure your `.env` file is configured and the database is initialized before running this.)
 
 ---
 
