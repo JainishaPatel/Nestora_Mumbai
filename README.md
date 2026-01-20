@@ -59,3 +59,45 @@ Before setup, make sure the following are installed:
 
 3. **Cloudinary Account**  
    Free signup: [https://cloudinary.com/](https://cloudinary.com/)
+
+---
+
+## Installation Guide
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/JainishaPatel/Nestora_Mumbai.git
+cd nestora_mumbai
+```
+
+### 2️⃣ Create & Activate Virtual Environment
+
+**Windows**
+```bash
+python -m venv my_env
+my_env\Scripts\activate
+```
+**macOS / Linux**
+```bash
+python3 -m venv my_env
+source my_env/bin/activate
+```
+### 3️⃣ Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Environment Variables
+
+
+
+
+
+
+
+
+
