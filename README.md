@@ -87,6 +87,28 @@ source my_env/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+### ⚠️ Virtual Environment Note (Important)
+On some systems (especially Windows), the virtual environment `(my_env)` may not be used correctly.
+
+If you face issues like:
+- Database tables not being created
+- MySQL working only outside my_env
+- App runs but DB changes are not applied
+
+You can use the Global (System) Python Environment instead (i.e., without `my_env`):
+```bash
+deactivate
+pip install -r requirements.txt
+```
+Or force the virtual environment Python:
+```bash
+my_env\Scripts\python -m pip install -r requirements.txt
+```
+To check which Python is being used:
+```bash
+python -c "import sys; print(sys.executable)"
+```
+👉 Use one Python environment consistently (either `my_env` or **Global Python**) for installing dependencies, creating tables, and running the app.
 
 ---
 
@@ -132,20 +154,20 @@ CREATE DATABASE nestora;
 
 ### 4️⃣ Initialize database tables
 - Run the database setup script to create all required tables:
-``` bash
+```bash
 python models/database.py
 ```
 ( This command will automatically create all the required tables. )
 
 ### 5️⃣ Upload default/sample images (optional)
 - Upload placeholder or sample images to Cloudinary:
-``` bash
+```bash
 python -m utils.upload_defaults_to_cloudinary
 ```
 
 ### 6️⃣ Preload Dummy Data (Optional)
 - If you want to add sample properties and users to your database for testing:
-``` bash
+```bash
 python run.py
 ```
 (This script will insert dummy/sample data into your database.
@@ -161,7 +183,7 @@ python app.py
 ```
 
 ### 2️⃣ Open your browser and visit:
-``` bash
+```bash
 http://127.0.0.1:5000
 ```
 
@@ -205,17 +227,3 @@ http://127.0.0.1:5000
 <img width="1808" height="1020" alt="Nestora_Mumbai_Image_4" src="https://github.com/user-attachments/assets/ebafe03c-a825-4435-b94a-4ca816b71362" />
 
 <img width="1885" height="1018" alt="Nestora_Mumbai_Image_5" src="https://github.com/user-attachments/assets/a91bc119-d095-421e-b6b7-8b1286ce3639" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
