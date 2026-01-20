@@ -176,6 +176,21 @@ http://127.0.0.1:5000
   
 (Admin credentials are configured via the `.env` file.)
 
+---
+
+## Image Preview
+
+<img width="1763" height="930" alt="Nestora_Mumbai_Image_1" src="https://github.com/user-attachments/assets/1d05bbe1-8bd9-44d4-96d3-a867ff7fa72d" />
+
+<img width="1771" height="872" alt="Nestora_Mumbai_Image_2" src="https://github.com/user-attachments/assets/c3074037-930b-4b70-adc9-73122e5431af" />
+
+<img width="1765" height="1017" alt="Nestora_Mumbai_Image_3" src="https://github.com/user-attachments/assets/aac0e4f1-b212-4f28-87f3-9148934c7a87" />
+
+<img width="1808" height="1020" alt="Nestora_Mumbai_Image_4" src="https://github.com/user-attachments/assets/ebafe03c-a825-4435-b94a-4ca816b71362" />
+
+<img width="1885" height="1018" alt="Nestora_Mumbai_Image_5" src="https://github.com/user-attachments/assets/a91bc119-d095-421e-b6b7-8b1286ce3639" />
+
+
 
 
 
