@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}My Properties | Nestora Mumbai{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4 fw-bold">My Properties</h2>
+
+        <div class="row g-4">
+            {% for property in properties %}
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 hover-card">
+                        <img src="{{ property.cover_image() }}"
+                            class="card-img-top"
+                            alt="{{ property.title }}"
+                            loading="lazy">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ property.area }} {{ property.direction }}</h5>
+                            <p class="mb-1">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>{{ property.formatted_price }} / {{ property.price_type }}
+                            </p>
+                            <p class="text-muted">
+                                <i class="fa-solid fa-bed"></i> {{ property.bhk }} · {{ property.furnishing }}
+                            </p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="{{ url_for('edit_property', id=property.id) }}" 
+                                class="btn btn-primary icon-btn" 
+                                title="Edit">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+
+                                <a href="#"
+                                    class="btn btn-danger icon-btn"
+                                    title="Delete"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal-{{ property.id }}">
+                                        <i class="fa-solid fa-trash"></i>
+                                </a>
+
+
+                                <a href="{{ url_for('property_details', id=property.id) }}" 
+                                class="btn btn-primary  icon-btn"
+                                title="View Details">
+                                    <i class="fa-solid fa-house"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="deleteModal-{{ property.id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title text-danger">
+                                    Delete Property
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                Are you sure you want to delete this property?
+                                <br>
+                                <small class="text-muted">This action cannot be undone.</small>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+
+                                <form method="POST" action="{{ url_for('delete_properties', id=property.id) }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-danger">
+                                        Yes, Delete
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            {% else %}
+                <p>No properties found. <a href="{{ url_for('create_property') }}">Add your first property</a>.</p>
+            {% endfor %}
+        </div>
+    </div>
+    
+</section>
+{% endblock %}

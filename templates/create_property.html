@@ -1,0 +1,375 @@
+{% extends "base.html" %}
+
+{% block title %}Post Your Property | Nestora Mumbai{% endblock %}
+
+{% block content %}
+
+{% set fd = form_data or {} %}
+
+<section class="container py-5">
+
+    <h2 class="fw-bold mb-2">Post Your Property</h2>
+    <p class="text-muted mb-5">
+        Fields marked with <span class="text-danger">*</span> are mandatory
+    </p>
+
+    <form class="needs-validation" novalidate action="{{ url_for('features') }}"  method="POST" enctype="multipart/form-data">
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="row">
+
+            <!-- LEFT SIDE -->
+            <div class="col-lg-6">
+
+                <!-- ================= BASIC DETAILS ================= -->
+                <h5 class="mb-3">Basic Details</h5>
+
+                <label class="form-label">
+                    Property Title <span class="text-danger">*</span>
+                </label>
+                <input class="form-control"
+                    name="title"
+                    value="{{ fd.title or '' }}"
+                    placeholder="eg. 1 BHK Borivali"
+                    required>
+                <div class="invalid-feedback">Please enter property title</div>
+
+                <div class="row">
+                    <div class="col-md-4 mt-3 mb-3">
+                        <label class="form-label">
+                            Property Type <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select" name="property_type" required>
+                            <option value="" disabled {% if not fd.property_type %}selected{% endif %}>Select</option>
+                            <option value="Rent" {% if fd.property_type == "Rent" %}selected{% endif %}>Rent</option>
+                            <option value="Buy" {% if fd.property_type == "Buy" %}selected{% endif %}>Buy</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Select property type
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-3 mb-3">
+                        <label class="form-label">
+                            BHK <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select" name="bhk" required>
+                            <option value="" disabled {% if not fd.bhk %}selected{% endif %}>Select</option>
+                            <option value="1 RK" {% if fd.bhk == "1 RK" %}selected{% endif %}>1 RK</option>
+                            <option value="1 BHK" {% if fd.bhk == "1 BHK" %}selected{% endif %}>1 BHK</option>
+                            <option value="2 BHK" {% if fd.bhk == "2 BHK" %}selected{% endif %}>2 BHK</option>
+                            <option value="3 BHK" {% if fd.bhk == "3 BHK" %}selected{% endif %}>3 BHK</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Select BHK
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-3 mb-3">
+                        <label class="form-label">
+                            Furnishing <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select" name="furnishing" required>
+                            <option value="" disabled {% if not fd.furnishing %}selected{% endif %}>Select</option>
+                            <option value="Furnished" {% if fd.furnishing == "Furnished" %}selected{% endif %}>Furnished</option>
+                            <option value="Semi-Furnished" {% if fd.furnishing == "Semi-Furnished" %}selected{% endif %}>Semi-Furnished</option>
+                            <option value="Unfurnished" {% if fd.furnishing == "Unfurnished" %}selected{% endif %}>Unfurnished</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Select furnishing
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= LOCATION ================= -->
+                <h5 class="mt-4 mb-3">Location</h5>
+
+                <div class="row">
+                
+                    <div class="col-12 mb-3 position-relative">
+                        <label class="form-label">
+                            Area <span class="text-danger">*</span>
+                        </label>
+
+                        <!-- Input that triggers dropdown -->
+                        <input class="form-control" 
+                            name="area" 
+                            value="{{ fd.area or '' }}"
+                            id="areaInput" 
+                            placeholder="Select Area" 
+                            readonly 
+                            required>
+                        <div class="invalid-feedback">
+                            Area is required
+                        </div>
+
+                        <!-- Dropdown menu -->
+                        <div class="dropdown-menu p-3 area-dropdown" id="areaDropdown">
+                            <div class="row g-3">
+                                {% for main_area, sub_areas in areas.items() %}
+                                    <div class="col-6 col-md-4">
+                                        <strong class="text-primary d-block mb-2">{{ main_area }}</strong>
+
+                                        {% for sub_area in sub_areas %}
+                                            <div class="form-check">
+                                                <input class="form-check-input area-radio"
+                                                    type="radio"
+                                                    name="area_radio"
+                                                    value="{{ sub_area }}"
+                                                    {% if fd.area == sub_area %}checked{% endif %}
+                                                    id="area-{{ sub_area }}">
+                                                <label class="form-check-label" for="area-{{ sub_area }}">
+                                                    {{ sub_area }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            Direction <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select" name="direction" required>
+                            <option value="" disabled {% if not fd.direction %}selected{% endif %}>Select</option>
+                            <option value="East" {% if fd.direction == "East" %}selected{% endif %}>East</option>
+                            <option value="West" {% if fd.direction == "West" %}selected{% endif %}>West</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Select Direction
+                        </div>
+                    </div>
+                
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            City <span class="text-danger">*</span>
+                        </label>
+                        <input class="form-control"
+                            name="city"
+                            value="Mumbai"
+                            readonly required>
+                    </div>
+                </div>
+
+                <!-- ================= PRICING ================= -->
+                <h5 class="mt-4 mb-3">Pricing</h5>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            Price <span class="text-danger">*</span>
+                        </label>
+                        <input type="number"
+                            class="form-control"
+                            name="price"
+                            value="{{ fd.price or '' }}"
+                            required>
+                        <div class="invalid-feedback">
+                            Enter price
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            Price Type <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select" name="price_type" required>
+                            <option value="" disabled {% if not fd.price_type %}selected{% endif %}>Select</option>
+                            <option value="per month" {% if fd.price_type == "per month" %}selected{% endif %}>Per Month</option>
+                            <option value="total" {% if fd.price_type == "total" %}selected{% endif %}>Total</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Select price type
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= IMAGES ================= -->
+                <h5 class="mt-4 mb-2">Image</h5>
+
+                <label class="form-label mt-3">
+                    Property Images <span class="text-danger">*</span>
+                </label>
+
+                <input type="file"
+                    class="form-control"
+                    name="images"
+                    multiple
+                    required>
+
+                <small class="text-muted">
+                    Hold <strong>Ctrl (Windows)</strong> / <strong>Cmd (Mac)</strong> and click to select multiple images.
+                </small>
+
+                <div class="invalid-feedback">
+                    Please upload at least one image
+                </div>
+
+
+                <!-- ================ OWNERSHIP ================= -->
+                <h5 class="mt-5 mb-3">Ownership</h5>
+                <div>
+                    <label class="form-label">
+                        Listed By <span class="text-danger">*</span>
+                    </label>
+                    <select class="form-select" name="owner_type" required>
+                        <option value="" disabled {% if not fd.owner_type %}selected{% endif %}>Select</option>
+                        <option value="Owner" {% if fd.owner_type == "Owner" %}selected{% endif %}>Owner</option>
+                        <option value="Agent" {% if fd.owner_type == "Agent" %}selected{% endif %}>Agent</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Select owner type
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="col-lg-1 d-none d-md-flex justify-content-center">
+                <div class="vr"></div>
+            </div>
+
+            <hr class="d-block d-lg-none mt-5">
+
+            <!-- RIGHT SIDE -->
+            <div class="col-lg-5">
+                <!-- ================= PROPERTY INFO (OPTIONAL DETAILS) ================= -->
+                <h5 class="mt-lg-0 mt-4">Property Info (Optional)</h5>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <input class="form-control" type="number" name="floor" value="{{ fd.floor or '' }}" placeholder="Floor No.">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <input class="form-control" type="number" name="total_floors" value="{{ fd.total_floors or '' }}" placeholder="Total Floors">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <input class="form-control" type="number" name="carpet_area" value="{{ fd.carpet_area or '' }}" placeholder="Carpet Area (sq ft)">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <input class="form-control" name="bathrooms" value="{{ fd.bathrooms or '' }}" placeholder="No. of Bathrooms">
+                    </div>
+
+                    <div class="col-md-6 mt-3 mb-3">
+                        <label class="form-label">
+                            Toilet Type
+                        </label>
+                        <select class="form-select" name="toilet_type">
+                            <option value="" disabled {% if not fd.toilet_type %}selected{% endif %}>Select</option>
+                            <option value="Western/Sitting" {% if fd.toilet_type == "Western/Sitting" %}selected{% endif %}>Western/Sitting</option>
+                            <option value="Indian/Squat" {% if fd.toilet_type == "Indian/Squat" %}selected{% endif %}>Indian/Squat</option>
+                            <option value="Both" {% if fd.toilet_type == "Both" %}selected{% endif %}>Both</option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mt-3 me-3">
+                            <input class="form-control"
+                                type="number"
+                                name="age_of_property"
+                                value="{{ fd.age_of_property or '' }}"
+                                placeholder="Age of Property (years)">
+                        </div>
+
+                        <div class="col-md-3 mb-3 d-flex align-items-center">
+                            <div class="form-check mt-4">
+                                <input class="form-check-input" type="checkbox" name="balcony" {% if fd.balcony %}checked{% endif %}>
+                                <label class="form-check-label">Balcony</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= AMENITIES ================= -->
+                <h5 class="mt-4 mb-3">Amenities (Optional)</h5>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="parking" {% if fd.parking %}checked{% endif %}>
+                    <label class="form-check-label">Parking</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="lift" {% if fd.lift %}checked{% endif %}>
+                    <label class="form-check-label">Lift</label>
+                </div>
+
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="gas_pipeline" {% if fd.gas_pipeline %}checked{% endif %}>
+                    <label class="form-check-label">Gas Pipeline</label>
+                </div>
+
+                <label class="form-label mt-2">Water Supply</label>
+                <select class="form-select mb-3" name="water_supply">
+                    <option value="" disabled {% if not fd.water_supply %}selected{% endif %}>Select</option>
+                    <option value="BMC" {% if fd.water_supply == "BMC" %}selected{% endif %}>BMC</option>
+                    <option value="Borewell" {% if fd.water_supply == "Borewell" %}selected{% endif %}>Borewell</option>
+                    <option value="Both" {% if fd.water_supply == "Both" %}selected{% endif %}>Both</option>
+                </select>
+
+
+                <!-- ================ NEARBY FACILITIES (OPTIONAL) ================= -->
+                <h5 class="mt-5 mb-3">Nearby Facilities (Optional)</h5>
+
+                <input class="form-control mb-2" name="landmark" value="{{ fd.landmark or '' }}" placeholder="Nearby Landmark">
+
+                <input class="form-control mb-2" name="nearby_metro" value="{{ fd.nearby_metro or '' }}" placeholder="Nearby Metro Station">
+
+                <input class="form-control mb-2" name="nearby_school" value="{{ fd.nearby_school or '' }}" placeholder="Nearby School">
+
+                <input class="form-control mb-3" name="nearby_hospital" value="{{ fd.nearby_hospital or '' }}" placeholder="Nearby Hospital">
+
+
+                <!-- ================ CHARGES ================= -->
+                <h5 class="mt-5 mb-3">Charges (Optional)</h5>
+
+                <div class="row">
+                    <!-- Security Deposit -->
+                    <div class="col-md-6 mb-3">
+                        <input class="form-control"
+                            type="number"
+                            name="deposit"
+                            placeholder="Security Deposit"
+                            value="{{ fd.deposit or '' }}"
+                            id="depositInput">
+                        <small class="text-muted" id="depositInfo">
+                            Advance money paid by the tenant, returned after leaving the house
+                        </small>
+                    </div>
+
+                    <!-- Maintenance Charge -->
+                    <div class="col-md-6 mb-3">
+                        <input class="form-control"
+                            type="number"
+                            name="maintenance_charge"
+                            value="{{ fd.maintenance_charge or '' }}"
+                            placeholder="Maintenance Charge"
+                            id="maintenanceInput">
+                        <small class="text-muted" id="maintenanceInfo">
+                            Monthly maintenance charges (only for buyers)
+                        </small>
+                    </div>
+                </div>     
+            </div>
+
+        </div>
+
+
+        <!-- ================= SUBMIT ================= -->
+        <button class="btn btn-warning btn-lg w-100 fw-bold mt-4">
+            Submit Property
+        </button>
+
+    </form>
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/post_property.js') }}"></script>
+{% endblock %}

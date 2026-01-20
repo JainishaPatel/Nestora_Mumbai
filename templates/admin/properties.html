@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Admin · Pending Properties  | Nestora Mumbai{% endblock %}
+
+{% block content %}
+<!-- PENDING PROPERTIES LISTINGS -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4">Pending Property Approvals</h2>
+
+        {% if properties %}
+        <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-4 row-cols-xl-5">
+            {% for property in properties %}
+            <div class="col">
+                <div class="card h-100 hover-card">
+                    <!-- Property Image -->
+                    {% if property.images %}
+                    <img 
+                        src="{{ property.images[0]['url'] if property.images[0] is mapping else property.images[0] }}" 
+                        class="card-img-top" 
+                        alt="Property Image"
+                        style="height: 180px; object-fit: cover;"
+                    >
+                    {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 180px;">
+                        <span class="text-muted">No Image</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- Card Body -->
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-truncate">{{ property.area }} {{ property.direction }}</h5>
+                        <p class="mb-1">
+                            <i class="fa-solid fa-indian-rupee-sign"></i> {{ property.formatted_price }} / {{ property.price_type }}
+                        </p>
+                        <p class="text-muted mb-2">
+                            <i class="fa-solid fa-bed"></i> {{ property.bhk }} · {{ property.furnishing }}
+                        </p>
+
+                        <!-- Owner Info -->
+                        <p class="text-muted mb-2 small">
+                            <i class="fa-solid fa-user"></i> {{ property.owner_name }}<br>
+                            <small>{{ property.owner_email }}</small>
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-center gap-3">
+
+                            <!-- Verify -->
+                            <div class="flex-fill">
+                                <form method="POST" action="{{ url_for('verify_property', property_id=property.id) }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit"
+                                            class="btn btn-success icon-btn w-100"
+                                            title="Verify">
+                                        <i class="fa-solid fa-check"></i>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Reject -->
+                            <div class="flex-fill">
+                                <button type="button"
+                                        class="btn btn-danger icon-btn w-100"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#rejectModal"
+                                        data-property-id="{{ property.id }}"
+                                        title="Reject">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+
+                            <!-- View -->
+                            <div class="flex-fill">
+                                <a href="{{ url_for('admin_property_details', id=property.id) }}"
+                                class="btn btn-secondary icon-btn w-100"
+                                title="View">
+                                    <i class="fa-solid fa-house"></i>
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Reject Property Modal -->
+            <div class="modal fade" id="rejectModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <form method="POST" id="rejectForm">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title">Reject Property</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <p class="mb-0">
+                                    Are you sure you want to <strong>reject this property</strong>?
+                                </p>
+                                <small class="text-muted">
+                                    This property will not appear in public listings.
+                                </small>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="btn btn-danger">
+                                    Reject Property
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {% else %}
+        <div class="alert alert-info mt-4">
+            No pending properties 🎉
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin-properties.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Nestora Mumbai{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO SECTION ================= -->
+<section class="hero-section text-center text-white">
+    <div class="container">
+
+        <h1 class="fw-bold">Find Local Homes in Mumbai</h1>
+        <p class="lead mb-4">Rent or buy verified homes in your nearby area</p>
+
+        <!-- Primary CTA -->
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <a href="{{ url_for('browse_houses') }}" target="_blank" class="btn btn-warning btn-lg fw-bold w-100">
+                    <i class="fa-solid fa-magnifying-glass"></i> Browse Homes
+                </a>
+            </div>
+        </div>
+
+        <!-- Secondary Actions -->
+        <div class="mt-4">
+            <!-- <a href="/browse?type=rent" target="_blank" class="btn btn-outline-light me-2">
+                Browse Rentals
+            </a> -->
+            <a href="{{ url_for('create_property') }}" target="_blank" class="btn btn-outline-light">
+                Post Your Property
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= FEATURED LISTINGS ================= -->
+<section class="featured-listings py-5">
+    <div class="container">
+
+        <h2 class="text-center mb-4 fw-bold">Featured Homes</h2>
+
+        <div class="row g-4">
+            {% for property in properties %}
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 hover-card">
+                   
+                    <img src="{{ property.cover_image() }}"
+                        class="card-img-top"
+                        alt="{{ property.title }}"
+                        loading="lazy">
+                
+                    <div class="card-body">
+                        <h5 class="card-title">{{ property.area }} {{ property.direction }}</h5>
+                        <p class="mb-1">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>{{ property.formatted_price }} / {{ property.price_type }}
+                        </p>
+                        <p class="text-muted">
+                            <i class="fa-solid fa-bed"></i> {{ property.bhk }} · {{ property.furnishing }}
+                        </p>
+                        <a href="{{ url_for('property_details', id=property.id) }}" class="btn btn-primary btn-sm w-100">
+                            View Details
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= WHY NESTORA ================= -->
+<section class="why-nestora py-5 bg-light">
+    <div class="container">
+
+        <h2 class="text-center mb-5 fw-bold">Why Choose Nestora Mumbai?</h2>
+
+        <div class="row g-4 text-center">
+            {% for item in why_nestora %}
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-4">
+                    <i class="fa-solid {{ item.icon }} fa-2x mb-3 mx-auto {{ item.color }}"></i>
+                    <h5>{{ item.title }}</h5>
+                    <p>{{ item.desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section class="how-it-works py-5">
+    <div class="container">
+
+        <h2 class="text-center mb-5 fw-bold">How It Works</h2>
+
+        <div class="row g-4 text-center">
+            {% for item in how_it_works %}
+            <div class="col-md-4">
+                <div class="step p-4 border rounded shadow-sm">
+                    <i class="fa-solid {{ item.icon }} fa-2x mb-3 {{ item.color }}"></i>
+                    <h5>{{ item.title }}</h5>
+                    <p>{{ item.desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

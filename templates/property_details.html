@@ -1,0 +1,337 @@
+{% extends "base.html" %}
+
+{% block title %}{{ property.title }} | Nestora Mumbai{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row g-4">
+
+        <!-- ================= LEFT : IMAGE CAROUSEL ================= -->
+        <div class="col-md-7">
+            <div id="propertyCarousel" class="carousel slide border-0 shadow-sm" data-bs-ride="carousel" data-bs-interval="3000">
+                
+                <!-- Indicators (dots) -->
+                {% if property.images|length > 1 %}
+                <div class="carousel-indicators">
+                    {% for img in property.images %}
+                        <button type="button" data-bs-target="#propertyCarousel" data-bs-slide-to="{{ loop.index0 }}"
+                                class="{% if loop.first %}active{% endif %}" aria-current="true" aria-label="Slide {{ loop.index }}">
+                        </button>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Carousel images -->
+                <div class="carousel-inner">
+                    {% for img in property.all_images() %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <img src="{{ img }}"
+                            class="d-block w-100 rounded"
+                            alt="{{ property.title }}">
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Controls (Prev / Next arrows) -->
+                {% if property.all_images()|length > 1 %}
+                <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <!-- ================= RIGHT : DETAILS ================= -->
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm p-4 h-100">
+
+                <!-- Title -->
+                <h2 class="fw-bold">{{ property.title }}</h2>
+                <p class="text-muted mb-2">
+                    <i class="fa-solid fa-location-dot"></i>
+                    {{ property.area }} {{ property.direction }}, {{ property.city }}
+                </p>
+
+                <!-- Price -->
+                <h3 class="text-primary fw-bold mb-3">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>{{ property.formatted_price }} 
+                    <small class="fs-6 text-muted">/ {{ property.price_type }}</small>
+                </h3>
+
+                <!-- Badges -->
+                <div class="mb-3">
+                    {% if property.is_verified %}
+                        <span class="badge bg-success me-2">
+                            <i class="fa-solid fa-circle-check"></i> Verified
+                        </span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark me-2">
+                            <i class="fa-solid fa-clock"></i> Pending Verification
+                        </span>
+                    {% endif %}
+
+                    {% if property.is_available %}
+                        <span class="badge bg-primary">Available</span>
+                    {% else %}
+                        <span class="badge bg-danger">Not Available</span>
+                    {% endif %}
+                </div>
+
+                <hr>
+
+                <!-- Property Info -->
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <p class="mb-1 text-muted">Property Type</p>
+                        <p class="fw-semibold">{{ property.property_type }}</p>
+                    </div>
+
+                    <div class="col-6">
+                        <p class="mb-1 text-muted">BHK</p>
+                        <p class="fw-semibold">{{ property.bhk }}</p>
+                    </div>
+
+                    <div class="col-6">
+                        <p class="mb-1 text-muted">Furnishing</p>
+                        <p class="fw-semibold">{{ property.furnishing }}</p>
+                    </div>
+
+                    <div class="col-6">
+                        <p class="mb-1 text-muted">City</p>
+                        <p class="fw-semibold">{{ property.city }}</p>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline-primary mt-3 mb-3"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#extraInfo">
+                    <i class="fa-solid fa-plus"></i> View Extra Details
+                </button>
+
+                <div class="collapse mt-4" id="extraInfo">
+                    <div class="row g-4">
+
+                        <!-- LEFT COLUMN -->
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 h-100">
+                                <!-- Property Info -->
+                                <h5 class="mb-3">Property Info</h5>
+                                <ul class="list-unstyled">
+                                    {% if property.floor %}
+                                    <li>Floor: {{ property.floor }} / {{ property.total_floors }}</li>
+                                    {% endif %}
+                                    {% if property.carpet_area %}
+                                    <li>Carpet Area: {{ property.carpet_area }} sq ft</li>
+                                    {% endif %}
+                                    {% if property.bathrooms %}
+                                    <li>Bathrooms: {{ property.bathrooms }}</li>
+                                    {% endif %}
+                                    {% if property.toilet_type %}
+                                    <li>Toilet Type: {{ property.toilet_type }}</li>
+                                    {% endif %}
+                                    {% if property.balcony %}
+                                    <li>Balcony: {{ "Available" if property.balcony == True else "Unavailable" }}</li>
+                                    {% endif %}
+                                    {% if property.age_of_property %}
+                                    <li>Age: {{ property.age_of_property }} years</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    
+                        <!-- RIGHT COLUMN -->
+                        <div class="col-md-6">
+                            <div class="border rounded p-3 h-100">
+                            <!-- Amenities -->
+                                <h5 class="mb-3">Amenities</h5>
+                                <ul class="list-unstyled">
+                                    {% if property.parking %}<li>Parking</li>{% endif %}
+                                    {% if property.lift %}<li>Lift</li>{% endif %}
+                                    {% if property.gas_pipeline %}<li>Gas Pipeline</li>{% endif %}
+                                    {% if property.water_supply %}<li>Water Supply: {{ property.water_supply }}</li>{% endif %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- FULL WIDTH -->
+                        <div class="col-md-6 lg-mb-3">
+                            <div class="border rounded p-3 h-100">
+                                <!-- Location -->
+                                <h5 class="mb-3">Nearby</h5>
+                                <ul class="list-unstyled">
+                                    {% if property.nearby_metro %}<li>Metro: {{ property.nearby_metro }}</li>{% endif %}
+                                    {% if property.landmark %}<li>Landmark: {{ property.landmark }}</li>{% endif %}
+                                    {% if property.nearby_school %}<li>School: {{ property.nearby_school }}</li>{% endif %}
+                                    {% if property.nearby_hospital %}<li>Hospital: {{ property.nearby_hospital }}</li>{% endif %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="border rounded p-3 h-100">
+                                <!-- Ownership -->
+                                <h5 class="mb-3">Ownership & Charges</h5>
+                                <ul class="list-unstyled">
+                                    {% if property.owner_type %}<li>Listed By: {{ property.owner_type }}</li>{% endif %}
+                                    {% if property.deposit %}<li>Security Deposit:  ₹{{ property.deposit }}</li>{% endif %}
+                                    {% if property.maintenance_charge %}<li>Maintenance:  ₹{{ property.maintenance_charge }}</li>{% endif %}
+                                    <li>Posted On: 
+                                        {% if property.posted_on %}
+                                            {{ property.posted_on.strftime("%d-%m-%Y") }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="mt-auto d-flex gap-2">
+                    {% if session.get("user_id") %}
+                    <button type="button" class="btn btn-warning fw-bold flex-fill" data-bs-toggle="modal" data-bs-target="#contactModal" title="Contact">
+                        <i class="fa-solid fa-phone"></i>
+                    </button>
+                    {% endif %}
+
+                    {% if property.user_id == session.user_id %}
+                    <form action="{{ url_for('delete_properties', id=property.id) }}" method="POST" class="flex-fill">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="button" class="btn btn-danger fw-bold w-100" title="Delete" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal-{{ property.id }}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+                    {% endif %}
+
+                    {% if property.user_id == session.user_id %}
+                    <a href="{{ url_for('edit_property', id=property.id) }}" class="btn btn-primary fw-bold flex-fill" title="Edit">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    {% endif %}
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Contact Owner Modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg rounded-3">
+
+                <!-- Modal Header -->
+                <div class="modal-header bg-primary text-white border-0">
+                    <h5 class="modal-title fw-bold" id="contactModalLabel">
+                        <i class="fa-solid fa-phone me-2"></i> Contact Owner
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body text-center bg-light p-4 rounded-bottom">
+
+                    <!-- Owner Name -->
+                    <div class="mb-3 py-2 px-3 bg-white shadow-sm rounded">
+                        <i class="fa-solid fa-user fa-2x text-secondary mb-2"></i>
+                        <h6 class="fw-bold mb-0">{{ property_owner.owner_name }}</h6>
+                    </div>
+
+                    <!-- Phone (plain text with color badge) -->
+                    {% if property_owner.owner_phone %}
+                    <div class="mb-2 py-2 px-3 bg-success text-white rounded shadow-sm d-inline-block w-100">
+                        <i class="fa-solid fa-phone me-2"></i>
+                        +91 {{ property_owner.owner_phone }}
+                    </div>
+                    {% else %}
+                    <p class="text-muted mb-3">
+                        Owner has not added a phone number.
+                    </p>
+                    {% endif %}
+
+                    <!-- Email (plain text with color badge) -->
+                    {% if property_owner.owner_email %}
+                    <div class="mb-2 py-2 px-3 bg-primary text-white rounded shadow-sm d-inline-block w-100">
+                        <i class="fa-solid fa-envelope me-2"></i>
+                        {{ property_owner.owner_email }}
+                    </div>
+                    {% endif %}
+
+                    <!-- Privacy Note -->
+                    <small class="text-muted d-block mt-3">
+                        Contact details are shared only for genuine enquiries.
+                    </small>
+
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-light w-100" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+     <!-- Confirm Delete Modal -->
+    <div class="modal fade" id="deleteModal-{{ property.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger">
+                        Confirm Delete
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    Are you sure you want to delete this property?  
+                    <br>
+                    <small class="text-muted">This action cannot be undone.</small>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <form method="POST" action="{{ url_for('delete_properties', id=property.id) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-danger">
+                            Yes, Delete
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% set map_query = property.area ~ ' ' ~ property.direction ~ ' ' ~ property.city %}
+
+<a href="https://www.google.com/maps/search/?api=1&query={{ map_query | urlencode }}"
+target="_blank"
+class="map-float-btn"
+title="View on Map">
+    <i class="fa-solid fa-map-location-dot"></i>
+</a>
+
+{% endblock %}

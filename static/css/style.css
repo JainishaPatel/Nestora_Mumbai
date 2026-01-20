@@ -1,0 +1,335 @@
+/* ================= RESET & BASE ================= */
+/* Reset box-sizing and remove default margin/padding */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Base body styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f7fa;
+    color: #333;
+}
+
+
+/* ================= NAVBAR ================= */
+/* Navbar background color */
+.navbar {
+    background-color: #023e7d !important;
+}
+
+/* Navbar brand (logo/title) styling */
+.navbar-brand {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #ffb703 !important;
+}
+
+/* Navbar links */
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+    margin-right: 1rem;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffb703 !important;
+}
+
+
+/* ================= HERO SECTION ================= */
+/* Hero section background with overlay */
+.hero-section {
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.5)
+        ),
+        url("../images/hero_bgimage.png") center / cover no-repeat;
+
+    padding: 100px 20px;
+    min-height: 75vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    color: #ffffff;
+}
+
+/* Hero heading */
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Hero paragraph / lead text */
+.hero-section p,
+.hero-section .lead {
+    font-size: 1.2rem;
+    color: #e6e6e6;
+    margin-bottom: 25px;
+}
+
+/* CTA buttons in hero */
+.hero-section .btn-warning {
+    background-color: #ffb703;
+    border: none;
+    color: #012a4a;
+    font-weight: bold;
+}
+
+.hero-section .btn-warning:hover {
+    background-color: #faa307;
+}
+
+.hero-section .btn-outline-light {
+    border-width: 2px;
+}
+
+
+/* ================= FEATURED LISTINGS ================= */
+.featured-listings {
+    padding: 60px 20px;
+}
+
+/* Featured section heading */
+.featured-listings h2 {
+    color: #012a4a;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+
+/* ================= CARDS ================= */
+/* Card styling and hover effects */
+.card {
+    border-radius: 0.8rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Card title & text */
+.card-title {
+    color: #023e7d;
+    font-weight: 600;
+}
+
+.card-text {
+    color: #555;
+}
+
+/* Card buttons */
+.card .btn-primary {
+    background-color: #0466c8;
+    border: none;
+}
+
+.card .btn-primary:hover {
+    background-color: #0353a4;
+}
+
+.hover-card {
+    transition: all 0.3s ease;
+}
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+
+
+/* ================= WHY NESTORA ================= */
+.why-nestora {
+    padding: 60px 20px;
+    background-color: #ffffff;
+}
+
+.why-nestora h2 {
+    color: #012a4a;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.why-nestora .card-logo {
+    color: #ffb703;
+}
+
+.why-nestora .card-title {
+    color: #023e7d;
+    font-weight: 600;
+}
+
+.why-nestora .card-text {
+    color: #555;
+    font-size: 0.95rem;
+}
+
+
+/* ================= HOW IT WORKS ================= */
+.how-it-works {
+    padding: 60px 20px;
+}
+
+.how-it-works h2 {
+    color: #012a4a;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+/* Individual step cards */
+.how-it-works .step {
+    padding: 30px 20px;
+    border-radius: 0.8rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.how-it-works .step:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Step title */
+.how-it-works h5 {
+    color: #023e7d;
+    font-weight: 600;
+}
+
+
+/* ================= FOOTER ================= */
+.footer {
+    margin-top: auto;
+    background-color: #012a4a;
+    color: #ffffff;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+.footer a {
+    color: #ffb703;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+
+/* ================= FORM VALIDATION STYLES ================= */
+.input-valid {
+    border: 2px solid green !important;
+    box-shadow: 0 0 5px green !important;
+    transition: 0.2s all;
+}
+
+.input-invalid {
+    border: 2px solid red !important;
+    box-shadow: 0 0 5px red !important;
+    transition: 0.2s all;
+}
+
+
+/* ================= FLASH MESSAGES ================= */
+.flash-container {
+    position: fixed;
+    top: 80px;          /* below navbar */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1055;
+    width: 350px;
+}
+
+.flash-container .alert {
+    margin-bottom: 10px;
+}
+
+
+/* ================= AREA DROPDOWN ================= */
+.area-dropdown {
+    max-height: 280px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.area-dropdown .form-check-label {
+    font-size: 13px;
+}
+
+.form-check{
+    font-size: 16px;
+}
+
+
+/* ================= ICON BUTTONS ================= */
+.icon-btn {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ================= MAP FLOAT BUTTON ================= */
+.map-float-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #0d6efd;
+    color: #fff;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    z-index: 999;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.map-float-btn:hover {
+    background: #084298;
+    transform: scale(1.08);
+    color: #fff;
+}
+
+.dropdown-item:active,
+.dropdown-item:focus {
+    background-color: rgba(13, 110, 253, 0.12);
+    color: inherit;   /* keeps original text color */
+}
+
+
+/* ================= RESPONSIVE STYLES ================= */
+@media (max-width: 992px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.1rem;
+    }
+
+    .hero-section p,
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+    
+}

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <title>{% block title %}Nestora Mumbai{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+<body>
+    
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+
+            <!-- Brand -->
+            <a class="navbar-brand fw-bold me-5" href="/">Nestora Mumbai</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+
+                <!-- Left / Main Nav -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('home') }}">
+                            <i class="fa-solid fa-house me-2"></i>Home
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('browse_houses') }}">
+                            <i class="fa-solid fa-building me-2"></i>Browse Houses
+                        </a>
+                    </li>
+
+                </ul>
+
+                <!-- Right Side -->
+                <ul class="navbar-nav gap-2 ms-lg-auto align-items-lg-center">
+
+                    {% if session.get('user_id') and session.get('is_admin') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('admin_properties') }}">
+                                     <i class="fas fa-user-shield me-2"></i>Admin Dashboard
+                                </a>
+                            </li>
+                    {% endif %}
+
+                    <!-- CTA Button -->
+                    <li class="nav-item">
+                        <a href="{{ url_for('create_property') }}"
+                        class="btn btn-warning fw-bold">
+                            <i class="fa-solid fa-plus me-1"></i>
+                            Post Property
+                        </a>
+                    </li>
+
+                    {% if session.get("user_id") %}
+                    <!-- Profile Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                            <i class="fa-solid fa-user-circle fa-lg"></i>
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('profile') }}">
+                                    <i class="fa-solid fa-user me-2"></i>Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('my_properties') }}">
+                                    <i class="fa-solid fa-house-user me-2"></i>My Properties
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="{{ url_for('logout') }}">
+                                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <!-- Login / Signup -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">
+                            <i class="fa-solid fa-right-to-bracket me-2"></i>Login
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('signup') }}">
+                            <i class="fa-solid fa-user-plus me-2"></i>Signup
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main>
+
+        <!-- ================= FLASH MSG ================= -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm"
+                            role="alert">
+                            
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                <span>{{ message }}</span>
+
+                                {% if show_signup_link %}
+                                    <a href="{{ url_for('signup', next=request.args.get('next'), email=entered_email) }}"
+                                    class="btn btn-sm btn-outline-primary">
+                                        Sign up
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                            <button type="button" class="btn-close"
+                                data-bs-dismiss="alert"
+                                aria-label="Close">
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+
+        {% block content %}{% endblock %}
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer bg-dark text-white text-center py-3">
+        <div class="container">
+            <p class="mb-1">© 2026 Nestora Mumbai · Local homes. Real people.</p>
+           <div class="d-flex justify-content-center gap-3">
+                <a href="javascript:void(0)"
+                class="text-white opacity-75"
+                data-bs-toggle="tooltip"
+                title="Coming soon">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <a href="javascript:void(0)"
+                class="text-white opacity-75"
+                data-bs-toggle="tooltip"
+                title="Coming soon">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+                <a href="javascript:void(0)"
+                class="text-white opacity-75"
+                data-bs-toggle="tooltip"
+                title="Coming soon">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el))
+        });
+    </script>
+
+    <!-- Page specific scripts -->
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

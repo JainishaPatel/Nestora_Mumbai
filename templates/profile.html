@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile | Nestora Mumbai{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+
+            <div class="card shadow-sm border-0 mt-5">
+                <div class="card-body p-4">
+
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-2"
+                             style="width:60px;height:60px;">
+                            <i class="fa-solid fa-user fa-lg"></i>
+                        </div>
+                        <h4 class="mb-0">My Profile</h4>
+                        <small class="text-muted">Manage your personal information</small>
+                    </div>
+
+                    <form method="POST" id="profileForm" novalidate>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <!-- Account Info -->
+                        <div class="mb-4">
+                            <h6 class="text-uppercase text-muted mb-3">Account Information</h6>
+
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label class="form-label">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </span>
+                                    <input type="email"
+                                           class="form-control"
+                                           value="{{ user.email }}"
+                                           disabled>
+                                </div>
+                            </div>
+
+                            <!-- Last Login -->
+                            <div class="mb-3">
+                                <label class="form-label">Last Login</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </span>
+                                    <input type="text"
+                                           class="form-control"
+                                           value="{{ user.last_login.strftime('%d %b %Y, %I:%M %p') if user.last_login else 'First login' }}"
+                                           disabled>
+                                </div>
+                            </div>
+
+                            <!-- Account Created -->
+                            <div class="mb-3">
+                                <label class="form-label">Account Created</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-calendar-check"></i>
+                                    </span>
+                                    <input type="text"
+                                           class="form-control"
+                                           value="{{ user.created_on.strftime('%d %b %Y') if user.created_on else 'N/A' }}"
+                                           disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <!-- Editable Info -->
+                        <div class="mb-3">
+                            <h6 class="text-uppercase text-muted mb-3">Personal Details</h6>
+
+                            <!-- Full Name -->
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Full Name <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-user"></i>
+                                    </span>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="name"
+                                           value="{{ user.name }}"
+                                           required>
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="mb-3">
+                                <label class="form-label">Contact Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">+91</span>
+                                    <input type="tel"
+                                           class="form-control"
+                                           name="phone"
+                                           value="{{ user.phone or '' }}"
+                                           placeholder="10-digit mobile number"
+                                           pattern="[0-9]{10}"
+                                           maxlength="10"
+                                           inputmode="numeric"
+                                           oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                                </div>
+                                <small class="text-muted">
+                                    Only 10-digit Indian mobile number
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Save Button -->
+                        <button type="submit"
+                                class="btn btn-primary w-100 mt-3"
+                                id="saveBtn"
+                                disabled>
+                            <i class="fa-solid fa-floppy-disk me-1"></i>
+                            Save Changes
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}
