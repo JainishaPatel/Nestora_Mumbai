@@ -143,8 +143,11 @@ def browse_read_property(area, property_type, max_price, page, per_page):
     return rows, total
 
 
-
+# ---------------- VIEW PROPERTY RAW ----------------
 def view_property_raw(id):
+    """
+    Returns the full property row from DB without ownership or verification checks
+    """
     db = db_connection()
     cursor = db.cursor(dictionary=True)
 
@@ -378,7 +381,7 @@ def admin_reject_property(property_id):
 
 
 
-
+# # ---------------- DELETE PROPERTY ----------------
 # def delete_property(id, user_id):
 #     import uuid
 
@@ -405,163 +408,3 @@ def admin_reject_property(property_id):
 #     db.close()
 
 #     return rows_deleted
-
-
-# # ---------------- VIEW SINGLE PROPERTY ----------------
-# def view_property(id):
-#     """
-#     Fetch a single property by ID.
-#     Only available properties are returned (soft delete respected).
-#     """
-#     import uuid
-
-#     try:
-#         uuid_obj = uuid.UUID(id)
-#     except ValueError:
-#         return None
-
-#     db = db_connection()
-#     cursor = db.cursor(dictionary=True)
-
-#     sql = """
-#         SELECT *
-#         FROM properties
-#         WHERE id = %s AND is_verified = 1 AND is_available = 1 
-#     """
-
-#     cursor.execute(sql, (str(uuid_obj),))
-#     row = cursor.fetchone()
-
-#     cursor.close()
-#     db.close()
-
-#     return row
-
-
-
-# # ---------------- USER: VIEW PROPERTY DETAILS EVEN IF NOT VERIFIED ----------------
-# def view_property_for_user(property_id, user_id):
-#     """
-#     Owner can view their own property even if not verified.
-#     Public users can only view verified & available properties.
-#     """
-#     import uuid
-
-#     try:
-#         uuid_obj = uuid.UUID(property_id)
-#     except ValueError:
-#         return None
-
-#     db = db_connection()
-#     cursor = db.cursor(dictionary=True)
-
-#     sql = """
-#         SELECT *
-#         FROM properties
-#         WHERE id = %s
-#         AND is_available = 1
-#         AND (
-#             is_verified = 1
-#             OR user_id = %s
-#         )
-#     """
-
-#     cursor.execute(sql, (str(uuid_obj), user_id))
-#     row = cursor.fetchone()
-
-#     cursor.close()
-#     db.close()
-
-#     return row
-
-
-
-
-# # ---------------- VIEW PROPERTY WITH OWNER INFO ----------------
-# def view_property_with_owner(id):
-#     """
-#     Fetch a property along with owner details from users table.
-#     Only returns available properties.
-#     """
-#     import uuid
-
-#     try:
-#         uuid_obj = uuid.UUID(id)
-#     except ValueError:
-#         return None
-    
-#     db = db_connection()
-#     cursor = db.cursor(dictionary=True)
-
-#     sql = """
-#         SELECT 
-#             p.*,
-#             u.name AS owner_name,
-#             u.email AS owner_email,
-#             u.phone AS owner_phone
-#         FROM properties p
-#         JOIN users u ON p.user_id = u.user_id
-#         WHERE p.id = %s AND p.is_verified = 1 AND p.is_available = 1  
-#     """
-#     values = (str(uuid_obj),)
-
-#     cursor.execute(sql, values)
-
-#     row = cursor.fetchone() # fetch single property with owner info
-
-#     cursor.close()
-#     db.close()
-
-#     return row
-
-
-# # ---------------- ADMIN: VIEW PENDING PROPERTY DETAILS ----------------
-# def admin_can_view_property_with_owner(id):
-#     """
-#     Fetch a property along with owner details from users table.
-#     Only returns available properties.
-#     """
-#     import uuid
-
-#     try:
-#         uuid_obj = uuid.UUID(id)
-#     except ValueError:
-#         return None
-    
-#     db = db_connection()
-#     cursor = db.cursor(dictionary=True)
-
-#     sql = """
-#         SELECT 
-#             p.*,
-#             u.name AS owner_name,
-#             u.email AS owner_email,
-#             u.phone AS owner_phone
-#         FROM properties p
-#         JOIN users u ON p.user_id = u.user_id
-#         WHERE p.id = %s   
-#     """
-#     values = (str(uuid_obj),)
-
-#     cursor.execute(sql, values)
-
-#     row = cursor.fetchone() # fetch single property with owner info
-
-#     cursor.close()
-#     db.close()
-
-#     return row
-
-
-# # ---------------- VIEW PENDING PROPERTY DETAILS WITHOUT OWNER DETAILS ----------------
-# def view_property_raw(id):
-#     db = db_connection()
-#     cursor = db.cursor(dictionary=True)
-
-#     sql = "SELECT * FROM properties WHERE id = %s"
-#     cursor.execute(sql, (id,))
-#     row = cursor.fetchone()
-
-#     cursor.close()
-#     db.close()
-#     return row
