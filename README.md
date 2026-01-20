@@ -16,10 +16,7 @@ Nestora Mumbai is a web application built with **Flask** that allows users to br
 - [Database Setup](#database-setup)  
 - [Running the Application](#running-the-application)  
 - [Usage](#usage)  
-- [Admin Panel](#admin-panel)  
-- [Project Structure](#project-structure)  
-- [Dependencies](#dependencies)  
-- [Notes / Tips](#notes--tips)  
+- [Admin Panel](#admin-panel)    
 
 ---
 
@@ -92,6 +89,96 @@ pip install -r requirements.txt
 ---
 
 ## Environment Variables
+
+### Create a `.env` file in the root of your project with the following placeholders:
+```bash
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=your_db_name
+SECRET_KEY=your_secret_key
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+ADMIN_NAME=your_admin_name
+ADMIN_EMAIL=your_admin_email
+ADMIN_PASSWORD=your_admin_password
+ADMIN_PHONE=your_admin_phone
+```
+
+⚠️ **Important**
+
+- **Do NOT commit** the `.env` file to GitHub.
+- Add `.env` to `.gitignore` to keep credentials safe.
+- Replace all `your_*` placeholders with your actual credentials before running the project.
+
+---
+
+## Database Setup
+
+### 1️⃣ Make sure MySQL server is running
+- Ensure your MySQL service is up and running before proceeding.
+
+### 2️⃣ Create the database
+```bash
+CREATE DATABASE nestora;
+```
+
+### 3️⃣ Update environment variables
+- Add your database credentials in the .env file.
+
+### 4️⃣ Initialize database tables
+- Run the database setup script (if available):
+``` bash
+python models/database.py
+```
+( This command will automatically create all the required tables. )
+
+---
+
+## Running the Application
+
+### 1️⃣ Start the Flask server:
+```bash
+python app.py
+```
+
+### 2️⃣ Open your browser and visit:
+``` bash
+http://127.0.0.1:5000
+```
+
+---
+
+## Usage
+
+## User
+- Register and log in
+- Browse property listings
+- Add new property listings with images
+- Edit or delete your own properties
+- Update profile information
+- Reset password securely
+
+## Guest
+- View verified property listings
+- Browse by area and property type
+
+---
+
+## Admin Panel
+
+### Admins can:
+- View all pending property listings
+- Verify or reject properties
+- Maintain listing quality and authenticity
+  
+(Admin credentials are configured via the `.env` file.)
+
+
+
+
 
 
 
