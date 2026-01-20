@@ -128,7 +128,7 @@ CREATE DATABASE nestora;
 ```
 
 ### 3️⃣ Update environment variables
-- Add your database credentials in the .env file.
+- Add your database credentials in the `.env` file.
 
 ### 4️⃣ Initialize database tables
 - Run the database setup script to create all required tables:
